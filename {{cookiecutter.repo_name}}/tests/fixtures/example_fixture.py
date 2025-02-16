@@ -7,5 +7,5 @@ from tests.consts import PROJECT_DIR
 
 @pytest.fixture(scope="session")
 def test_session_id() -> str:
-    test_session = str(PROJECT_DIR.name) + str(uuid4())[:6]
-    return test_session
+    test_session_id = str(PROJECT_DIR.name) + str(uuid4())[:6]
+    return test_session_id
