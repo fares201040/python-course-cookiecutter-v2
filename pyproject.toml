@@ -112,8 +112,6 @@ exclude = [
     "env",
     ".env"
 ]
-
-[tool.ruff.lint]
 select = ["E", "F", "B", "ERA"]
 ignore = ["E501", "F401"]
 unfixable = ["B"]
