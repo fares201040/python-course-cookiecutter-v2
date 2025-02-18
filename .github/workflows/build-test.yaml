@@ -36,8 +36,6 @@ jobs:
           /bin/bash -x run.sh lint:ci
 
   execute-tests:
-    needs:
-      - build-wheel-and-sdist
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -48,7 +46,7 @@ jobs:
       - name: Lint, Format, and other static code quality checks
         run: |
           make install
-          make test
+          make tests
 
   push-tags:
     needs:
