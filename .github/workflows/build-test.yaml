@@ -1,4 +1,4 @@
-name: Build, Test, and Publish
+name: Build, Test
 
 on:
   pull_request:
@@ -43,10 +43,14 @@ jobs:
         uses: actions/setup-python@v3
         with:
           python-version: 3.8
-      - name: Lint, Format, and other static code quality checks
+      - name: Configure git CLI
+        run: |
+          git config --global user.email "fares201040@hotmail.com"
+          git config --global user.name "Faris"
+      - name: Run tests
         run: |
           make install
-          make tests
+          make test
 
   push-tags:
     needs:
