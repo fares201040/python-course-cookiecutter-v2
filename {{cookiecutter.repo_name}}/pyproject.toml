@@ -83,6 +83,9 @@ disable = [
     "redefined-outer-name",
 ]
 
+[tool.mypy]
+exclude = "venv/"
+
 [tool.ruff]
 line-length = 119
 exclude = [
