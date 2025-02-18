@@ -58,7 +58,9 @@ multi_line_output = "VERTICAL_HANGING_INDENT"
 force_grid_wrap = 2
 line_length = 119
 
+
 [tool.pylint]
+max-line-length = 88
 ignore-paths = [
     "(^|/|\\\\)venv($|/|\\\\)",
     "(^|/|\\\\)\\.venv($|/|\\\\)",
@@ -71,9 +73,7 @@ ignore-patterns = [
     "(^|/|\\\\)env/.*",
     "(^|/|\\\\)\\.env/.*"
 ]
-
-[tool.pylint."messages control"]
-disable = [
+messages_control = { disable =[
     "line-too-long",
     "trailing-whitespace",
     "missing-function-docstring",
@@ -81,7 +81,11 @@ disable = [
     "import-error",
     "too-few-public-methods",
     "redefined-outer-name",
-]
+    "missing-docstring",
+    "C0114",  # missing-module-docstring
+    "C0115",  # missing-class-docstring
+    "C0116",  # missing-function-docstring
+]}
 
 [tool.mypy]
 exclude = "venv/|.venv/|env/|.env/"
