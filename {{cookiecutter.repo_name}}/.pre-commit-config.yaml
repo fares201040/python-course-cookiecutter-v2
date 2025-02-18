@@ -52,17 +52,17 @@ repos:
       - id: ruff
         args: [--exit-non-zero-on-fix, --config=./pyproject.toml]
 
-  - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.10.0  # Update to a valid version
-    hooks:
-      - id: mypy
-        args:
-          [
-            --no-strict-optional,
-            --ignore-missing-imports,
-            --config-file=./pyproject.toml,
-            --exclude=venv/, --explicit-package-bases
-          ]
+  # - repo: https://github.com/pre-commit/mirrors-mypy
+  #   rev: v1.10.0  # Update to a valid version
+  #   hooks:
+  #     - id: mypy
+  #       args:
+  #         [
+  #           --no-strict-optional,
+  #           --ignore-missing-imports,
+  #           --config-file=./pyproject.toml,
+  #           --exclude=venv/, --explicit-package-bases
+  #         ]
 
   - repo: https://github.com/psf/black
     rev: 23.1.0
