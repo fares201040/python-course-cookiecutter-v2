@@ -85,6 +85,7 @@ disable = [
 
 [tool.mypy]
 exclude = "venv/|.venv/|env/|.env/"
+explicit_package_bases = true
 
 [tool.ruff]
 line-length = 119
