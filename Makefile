@@ -12,3 +12,12 @@ install:
 
 generate-project:
 	bash run.sh generate-project
+
+lint:
+	bash run.sh lint
+
+lint-ci:
+	bash run.sh lint:ci
+
+tests:
+	bash run.sh run-tests

@@ -1,8 +1,9 @@
 black
 flake8
-ruff
+isort
 mypy
 pylint
-isort
-radon
 pytest-xdist
+radon
+ruff
+pytest-cov
