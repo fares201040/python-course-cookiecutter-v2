@@ -84,7 +84,7 @@ disable = [
 ]
 
 [tool.mypy]
-exclude = "venv/"
+exclude = "venv/|.venv/|env/|.env/"
 
 [tool.ruff]
 line-length = 119
