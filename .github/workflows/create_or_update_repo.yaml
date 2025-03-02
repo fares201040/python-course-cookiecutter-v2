@@ -25,9 +25,9 @@ jobs:
         with:
           fetch-depth: 0
       - env:
-          REPO_NAME: ${{ github.event.inputs.repo_name}}
+          REPO_NAME: ${{ github.event.inputs.repo_name }}
           GITHUB_USERNAME: fares201040
-          IS_PUBLIC_REPO: ${{ github.event.inputs.is_public_repo}}
+          IS_PUBLIC_REPO: ${{ github.event.inputs.is_public_repo }}
         run: |
           bash run.sh create-repo-if-not-exists
 
@@ -43,7 +43,7 @@ jobs:
         env:
           TEST_PYPI_TOKEN: ${{ secrets.TEST_PYPI_TOKEN }}
           PROD_PYPI_TOKEN: ${{ secrets.PROD_PYPI_TOKEN }}
-          REPO_NAME: ${{ github.event.inputs.repo_name}}
+          REPO_NAME: ${{ github.event.inputs.repo_name }}
           GITHUB_USERNAME: fares201040
 
   open-pr-with-generated-project:
@@ -56,5 +56,5 @@ jobs:
       - run: |
           bash run.sh open-pr-with-generated-project
         env:
-          REPO_NAME: ${{ github.event.inputs.repo_name}}
+          REPO_NAME: ${{ github.event.inputs.repo_name }}
           GITHUB_USERNAME: fares201040
