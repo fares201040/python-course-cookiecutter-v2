@@ -218,7 +218,7 @@ function create-sample-repo {
         -f repo_name=generated-repo-26 \
         -f package_import_name=generated_repo_26 \
         -f is_public_repo=false \
-        -ref main
+        --ref main
 }
 # print all functions in this file
 function help {
