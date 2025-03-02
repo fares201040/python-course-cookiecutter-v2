@@ -116,8 +116,8 @@ function push-initial-readme-to-repo {
 }
 
 # args:
-#   TEST_PYPI_TOKEN, PROD_PYPI_TOKEN - auth token for test and prod PYPI
 #   REPO_NAME - name of the repository
+#   TEST_PYPI_TOKEN, PROD_PYPI_TOKEN - auth token for test and prod PYPI
 #   GITHUB_USERNAME - name of my github user, e.g. fares201040
 function configure-repo {
     # configure github actions secrets
