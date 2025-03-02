@@ -220,7 +220,6 @@ function create-sample-repo {
     && git commit -m "fix: debugging the create-or-update-repo.yaml" \
     && git push origin main || true
 
-    gh repo set-default
     gh workflow run .github/workflows/create-or-update-repo.yaml \
         -f repo_name=generated-repo-27 \
         -f package_import_name="generated_repo_27" \
