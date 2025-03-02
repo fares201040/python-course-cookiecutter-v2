@@ -210,28 +210,28 @@ EOF
 }
 
 function create-sample-repo {
-    # Ensure the repository has a remote set
+    REPO_NAME="generated-repo-26"
+    GITHUB_USERNAME="$(gh api user --jq '.login')"
+    FULL_REPO="$GITHUB_USERNAME/$REPO_NAME"
+
+    # Check if 'origin' remote exists
     if ! git remote | grep -q origin; then
-        echo "⚠️ No remote repository found. Please add one first."
-        return 1
+        echo "⚠️ No remote repository found. Adding remote..."
+        git remote add origin "https://github.com/$FULL_REPO.git"
     fi
 
-    # Add and commit changes
-    git add .github/ \
-    && git commit -m "fix: debugging the create-or-update-repo.yaml" \
-    && git push origin main
+    # Ensure changes are committed and pushed
+    git add .github/
+    git commit -m "fix: debugging the create-or-update-repo.yaml"
+    git push origin main
 
-    # Ensure GitHub CLI is authenticated
+    # Authenticate GitHub CLI if needed
     if ! gh auth status >/dev/null 2>&1; then
         echo "⚠️ GitHub CLI is not authenticated. Please run: gh auth login"
         return 1
     fi
 
-    # Set the repository as default (if not already set)
-    REPO_NAME="generated-repo-26"
-    GITHUB_USERNAME="$(gh api user --jq '.login')"
-    FULL_REPO="$GITHUB_USERNAME/$REPO_NAME"
-
+    # Set repository as default
     if ! gh repo set-default "$FULL_REPO"; then
         echo "⚠️ Failed to set default repository. Please check manually."
         return 1
