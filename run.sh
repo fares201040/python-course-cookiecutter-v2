@@ -217,7 +217,7 @@ function create-sample-repo {
     gh workflow run .github/workflows/create-or-update-repo.yaml \
         -f repo_name=generated-repo-28 \
         -f package_import_name=generated_repo_28 \
-        -f is_public_repo=false \
+        -f is_public_repo=true \
         --ref main
 }
 # print all functions in this file
