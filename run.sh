@@ -228,7 +228,7 @@ function create-sample-repo {
 
     # Set the repository as default (if not already set)
     REPO_NAME="generated-repo-26"
-    GITHUB_USERNAME= "fares201040"
+    GITHUB_USERNAME= "$(gh api user --jq '.login')"
     FULL_REPO="$GITHUB_USERNAME/$REPO_NAME"
 
     if ! gh repo set-default "$FULL_REPO"; then
