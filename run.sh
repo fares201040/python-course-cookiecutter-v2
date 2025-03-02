@@ -216,12 +216,9 @@ function create-sample-repo {
         return 1
     fi
 
-    # Add and commit changes
-    git add .github/
-    git commit -m "fix: debugging the create-or-update-repo.yaml"
-
-    # Push changes to the remote repository
-    git push origin main
+    git add .github/ \
+    && git commit -m "fix: debugging the create-or-update-repo.yaml" \
+    && git push origin main || true
 
     # Ensure GitHub CLI is authenticated
     if ! gh auth status >/dev/null 2>&1; then
