@@ -216,16 +216,54 @@ function create-sample-repo {
         return 1
     fi
 
+    # Add and commit changes
     git add .github/ \
     && git commit -m "fix: debugging the create-or-update-repo.yaml" \
-    && git push origin main || true
+    && git push origin main
 
+    # Ensure GitHub CLI is authenticated
+    if ! gh auth status >/dev/null 2>&1; then
+        echo "⚠️ GitHub CLI is not authenticated. Please run: gh auth login"
+        return 1
+    fi
+
+    # Set the repository as default (if not already set)
+    REPO_NAME="generated-repo-26"
+    GITHUB_USERNAME="$(gh api user --jq '.login')"
+    FULL_REPO="$GITHUB_USERNAME/$REPO_NAME"
+
+    if ! gh repo set-default "$FULL_REPO"; then
+        echo "⚠️ Failed to set default repository. Please check manually."
+        return 1
+    fi
+
+    # Run GitHub Actions workflow
     gh workflow run .github/workflows/create-or-update-repo.yaml \
-        -f repo_name=generated-repo-27 \
-        -f package_import_name="generated_repo_27" \
+        --repo "$FULL_REPO" \
+        -f repo_name="$REPO_NAME" \
+        -f package_import_name="generated_repo_26" \
         -f is_public_repo=false \
         -ref main
 }
+
+
+# function create-sample-repo {
+#     # Ensure the repository has a remote set
+#     if ! git remote | grep -q origin; then
+#         echo "⚠️ No remote repository found. Please add one first."
+#         return 1
+#     fi
+
+#     git add .github/ \
+#     && git commit -m "fix: debugging the create-or-update-repo.yaml" \
+#     && git push origin main || true
+
+#     gh workflow run .github/workflows/create-or-update-repo.yaml \
+#         -f repo_name=generated-repo-27 \
+#         -f package_import_name="generated_repo_27" \
+#         -f is_public_repo=false \
+#         -ref main
+# }
 
 # print all functions in this file
 function help {
