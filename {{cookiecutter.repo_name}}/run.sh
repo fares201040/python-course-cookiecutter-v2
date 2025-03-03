@@ -21,6 +21,8 @@ function lint:ci {
     echo "Running linting (first pass)..."
     SKIP=no-commit-to-branch pre-commit run --all-files || true
 
+    git config --global user.email "fares201040@hotmail.com"
+    git config --global user.name "fares201040"
     # Check if there are any changes to commit (fixes applied)
     if git diff --exit-code; then
         echo "No fixes applied during the first linting pass."
