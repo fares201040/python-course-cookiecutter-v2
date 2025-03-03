@@ -211,7 +211,7 @@ EOF
 }
 
 function create-sample-repo {
-    git add .github/ run.sh \
+    git add .github/ run.sh --all \
     && git commit -m "fix: debugging the create-or-update-repo.yaml" \
     && git push origin main || true
 
