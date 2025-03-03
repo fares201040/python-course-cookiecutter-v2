@@ -27,12 +27,16 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - env:
+      - name: Configure git user
+        run: |
+          git config --global user.email "fares201040@hotmail.com"
+          git config --global user.nam "fares201040"
+      - run: |
+          bash -x run.sh create-repo-if-not-exists
+        env:
           REPO_NAME: ${{ github.event.inputs.repo_name }}
           GITHUB_USERNAME: fares201040
           IS_PUBLIC_REPO: ${{ github.event.inputs.is_public_repo }}
-        run: |
-          bash -x run.sh create-repo-if-not-exists
 
   configure-repo:
     needs: [create-repo-if-not-exists]
@@ -41,6 +45,10 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+      - name: Configure git user
+        run: |
+          git config --global user.email "fares201040@hotmail.com"
+          git config --global user.nam "fares201040"
       - run: |
           bash -x run.sh configure-repo
         env:
@@ -56,6 +64,10 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+      - name: Configure git user
+        run: |
+          git config --global user.email "fares201040@hotmail.com"
+          git config --global user.nam "fares201040"
       - run: |
           bash -x run.sh open-pr-with-generated-project
         env:
