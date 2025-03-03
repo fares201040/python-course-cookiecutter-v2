@@ -78,6 +78,21 @@ function try-load-dotenv {
     done < <(grep -v '^#' "$THIS_DIR/.env" | grep -v '^$')
 }
 
+function push-initial-readme-to-repo {
+    rm -rf "$REPO_NAME"
+    gh repo clone "$GITHUB_USERNAME/$REPO_NAME"
+    cd "$REPO_NAME"
+    echo "# $REPO_NAME" > "README.md"
+    git branch -M main || true
+    git add --all
+    git commit -m "feat: created repository"
+    if [[ -n "$GH_TOKEN" ]]; then
+        git remote set-url origin "https://$GITHUB_USERNAME:$GH_TOKEN@github.com/$GITHUB_USERNAME/$REPO_NAME"
+    fi
+    git push origin main
+
+}
+
 # args:
 # REPO_NAME - name of the repository
 # GITHUB_USERNAME - name of my github user, e.g. Faris
@@ -97,25 +112,10 @@ function create-repo-if-not-exists {
         PUBLIC_OR_PRIVATE="private"
     fi
 
-    echo "creating repository..."
+    echo "Repository does not exist, creating repository..."
     gh repo create "$GITHUB_USERNAME/$REPO_NAME" "--$PUBLIC_OR_PRIVATE"
 
-    # push_initial_readme_to_repo
-}
-
-function push-initial-readme-to-repo {
-    rm -rf "$REPO_NAME"
-    gh repo clone "$GITHUB_USERNAME/$REPO_NAME"
-    cd "$REPO_NAME"
-    echo "# $REPO_NAME" > "README.md"
-    git branch -M main || true
-    git add --all
-    git commit -m "feat: created repository"
-    if [[ -n "$GH_TOKEN" ]]; then
-        git remote set-url origin "https://$GITHUB_USERNAME:$GH_TOKEN@github.com/$GITHUB_USERNAME/$REPO_NAME"
-    fi
-    git push origin main
-
+    push_initial_readme_to_repo
 }
 
 # args:
@@ -138,8 +138,8 @@ function configure-repo {
     -F "required_status_checks[strict]=true" \
     -F "required_status_checks[checks][][context]=check-version-txt" \
     -F "required_status_checks[checks][][context]=lint-format-and-static-code-checks" \
+    -F "required_status_checks[checks][][context]=build-wheel-and-sdist" \
     -F "required_status_checks[checks][][context]=execute-tests" \
-    -F "required_status_checks[checks][][context]=push-tags" \
     -F "required_pull_request_reviews[required_approving_review_count]=0" \
     -F "enforce_admins=null" \
     -F "restrictions=null" > /dev/null
@@ -151,11 +151,12 @@ function configure-repo {
 #   GITHUB_USERNAME - name of my github user, e.g fares201040
 #   PACKAGE_IMPORT_NAME - e.g. if "example_pkg" then "import example_pkg"
 function open-pr-with-generated-project {
+    rm -rf "$REPO_NAME" ./outdir
+    install
 
     # clone the repository
-    # gh repo clone "$GITHUB_USERNAME/$REPO_NAME"
+    gh repo clone "$GITHUB_USERNAME/$REPO_NAME"
 
-    # rm -rf "$REPO_NAME" ./outdir
     # delete repository content
     mv "$REPO_NAME/.git" "./$REPO_NAME.git.bak"
     rm -rf "$REPO_NAME"
@@ -175,7 +176,9 @@ EOF
         --no-input \
         --config-file $CONFIG_FILE_PATH
     rm $CONFIG_FILE_PATH
-    mv "$REPO_NAME/.git" "$OUTDIR/$REPO_NAME"
+
+    # stage the generated files on a new feature branch
+    mv "$REPO_NAME/.git" "$OUTDIR/$REPO_NAME/"
     cd "$OUTDIR/$REPO_NAME"
 
     UUID=$(cat /proc/sys/kernel/random/uuid)
@@ -196,7 +199,6 @@ EOF
     if [[ -n "$GH_TOKEN" ]]; then
         git remote set-url origin "https://$GITHUB_USERNAME:$GH_TOKEN@github.com/$GITHUB_USERNAME/$REPO_NAME"
     fi
-
     git push origin "$UNIQUE_BRANCH_NAME"
 
     # open a PR from the feature branch into main
@@ -209,13 +211,13 @@ EOF
 }
 
 function create-sample-repo {
-    git add .github/ \
+    git add .github/ run.sh \
     && git commit -m "fix: debugging the create-or-update-repo.yaml" \
-    && git push origin main
+    && git push origin main || true
 
     gh workflow run .github/workflows/create-or-update-repo.yaml \
-        -f repo_name=generated-repo-27 \
-        -f package_import_name=generated_repo_27 \
+        -f repo_name=generated-repo-$REPO_NUMBER \
+        -f package_import_name=generated_repo_$REPO_NUMBER \
         -f is_public_repo=true \
         --ref main
 }

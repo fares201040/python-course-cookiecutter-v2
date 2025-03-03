@@ -30,7 +30,7 @@ jobs:
       - name: Configure git user
         run: |
           git config --global user.email "fares201040@hotmail.com"
-          git config --global user.nam "fares201040"
+          git config --global user.name "fares201040"
       - run: |
           bash -x run.sh create-repo-if-not-exists
         env:
@@ -48,7 +48,7 @@ jobs:
       - name: Configure git user
         run: |
           git config --global user.email "fares201040@hotmail.com"
-          git config --global user.nam "fares201040"
+          git config --global user.name "fares201040"
       - run: |
           bash -x run.sh configure-repo
         env:
@@ -67,9 +67,10 @@ jobs:
       - name: Configure git user
         run: |
           git config --global user.email "fares201040@hotmail.com"
-          git config --global user.nam "fares201040"
+          git config --global user.name "fares201040"
       - run: |
           bash -x run.sh open-pr-with-generated-project
         env:
           REPO_NAME: ${{ github.event.inputs.repo_name }}
+          GITHUB_IMPORT_NAME: ${{ github.event.inputs.package_import_name }}
           GITHUB_USERNAME: fares201040
