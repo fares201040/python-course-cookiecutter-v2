@@ -115,7 +115,7 @@ function create-repo-if-not-exists {
     echo "Repository does not exist, creating repository..."
     gh repo create "$GITHUB_USERNAME/$REPO_NAME" "--$PUBLIC_OR_PRIVATE"
 
-    push_initial_readme_to_repo
+    push-initial-readme-to-repo
 }
 
 # args:
