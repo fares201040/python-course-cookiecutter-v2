@@ -17,8 +17,21 @@ function lint {
 
 # same as `lint` but with any special considerations for CI
 function lint:ci {
-    # We skip no-commit-to-branch since that blocks commits to `main`.
-    # All merged PRs are commits to `main` so this must be disabled.
+    # First run: Allow errors, do not stop, and commit fixes if any
+    echo "Running linting (first pass)..."
+    SKIP=no-commit-to-branch pre-commit run --all-files || true
+
+    # Check if there are any changes to commit (fixes applied)
+    if git diff --exit-code; then
+        echo "No fixes applied during the first linting pass."
+    else
+        echo "Fixes applied during the first linting pass. Committing changes..."
+        git add .
+        git commit -m "Apply automatic linting fixes"
+    fi
+
+    # Second run: Enforce linting strictly
+    echo "Running linting (second pass)..."
     SKIP=no-commit-to-branch pre-commit run --all-files
 }
 
