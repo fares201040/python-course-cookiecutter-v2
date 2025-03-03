@@ -7,6 +7,15 @@ on:
     branches:
       - main
   workflow_dispatch:
+    inputs:
+      publish_to_main:
+        description: Publish to PYPI if tests successful
+        required: true
+        type: boolean
+        default: false
+  
+permissions:
+  contents: write
 
 jobs:
 

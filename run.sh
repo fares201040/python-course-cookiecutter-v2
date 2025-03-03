@@ -88,8 +88,8 @@ function create-repo-if-not-exists {
     # check to see if the repository exists; if it does, return
     echo "Checking to see if $GITHUB_USERNAME/$REPO_NAME exists..."
     gh repo view "$GITHUB_USERNAME/$REPO_NAME" > /dev/null \
-    && echo "repo exists, existing..." \
-    && return 0
+        && echo "repo exists, existing..." \
+        && return 0
     # otherwise we'll create the repository
     if [[ "$IS_PUBLIC_REPO" == "true" ]]; then
         PUBLIC_OR_PRIVATE="public"
@@ -110,7 +110,10 @@ function push-initial-readme-to-repo {
     echo "# $REPO_NAME" > "README.md"
     git branch -M main || true
     git add --all
-    git commit -m "feat: create repository"
+    git commit -m "feat: created repository"
+    if [[ -n "$GH_TOKEN" ]]; then
+        git remote set-url origin "https://$GITHUB_USERNAME:$GH_TOKEN@github.com/$GITHUB_USERNAME/$REPO_NAME"
+    fi
     git push origin main
 
 }
@@ -137,7 +140,7 @@ function configure-repo {
     -F "required_status_checks[checks][][context]=lint-format-and-static-code-checks" \
     -F "required_status_checks[checks][][context]=execute-tests" \
     -F "required_status_checks[checks][][context]=push-tags" \
-    -F "required_pull_request_reviews[required_approving_review_count]=1" \
+    -F "required_pull_request_reviews[required_approving_review_count]=0" \
     -F "enforce_admins=null" \
     -F "restrictions=null" > /dev/null
 
@@ -172,16 +175,6 @@ EOF
         --no-input \
         --config-file $CONFIG_FILE_PATH
     rm $CONFIG_FILE_PATH
-
-    # "cookiecutter",
-    #     str(PROJECT_DIR),
-    #     "--output-dir",
-    #     str(PROJECT_DIR / "sample"),
-    #     "--no-input",
-    #     "--config-file",
-    #     str(cookiecutter_config_fpath),
-    #     "--verbose",
-    # stage the generated files on a new feature branch
     mv "$REPO_NAME/.git" "$OUTDIR/$REPO_NAME"
     cd "$OUTDIR/$REPO_NAME"
 
@@ -198,6 +191,12 @@ EOF
 
     # commit the changes and push them to the remote feature branch
     git commit -m "feat!: populate from 'python-course-cookiecutter-v2' template"
+
+    # if GH_TOKEN is set, set the remote the url to it
+    if [[ -n "$GH_TOKEN" ]]; then
+        git remote set-url origin "https://$GITHUB_USERNAME:$GH_TOKEN@github.com/$GITHUB_USERNAME/$REPO_NAME"
+    fi
+
     git push origin "$UNIQUE_BRANCH_NAME"
 
     # open a PR from the feature branch into main
