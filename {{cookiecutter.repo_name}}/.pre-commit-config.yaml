@@ -10,7 +10,7 @@ repos:
       - id: trailing-whitespace
         args: [--markdown-linebreak-ext=md]
       # Makes sure files end in a newline and only a newline;
-      # - id: end-of-file-fixer
+      - id: end-of-file-fixer
       # Attempts to load all TOML files to verify syntax.
       - id: check-toml
       # Attempts to load all yaml files to verify syntax; unsafe: only check syntax, do not load yaml
@@ -41,8 +41,8 @@ repos:
       # Prevent addition of new git submodules.
       - id: forbid-new-submodules
       # Prevent committing directly to trunk (since Bitbucket wants us to pay for this feature)
-      # - id: no-commit-to-branch
-        # args: ["--branch=main"]
+      - id: no-commit-to-branch
+        args: ["--branch=main"]
       # Detects the presence of private keys
       - id: detect-private-key
 
@@ -52,17 +52,17 @@ repos:
       - id: ruff
         args: [--exit-non-zero-on-fix, --config=./pyproject.toml]
 
-  # - repo: https://github.com/pre-commit/mirrors-mypy
-  #   rev: v1.10.0  # Update to a valid version
-  #   hooks:
-  #     - id: mypy
-  #       args:
-  #         [
-  #           --no-strict-optional,
-  #           --ignore-missing-imports,
-  #           --config-file=./pyproject.toml,
-  #           --exclude=venv/, --explicit-package-bases
-  #         ]
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.10.0  # Update to a valid version
+    hooks:
+      - id: mypy
+        args:
+          [
+            --no-strict-optional,
+            --ignore-missing-imports,
+            --config-file=./pyproject.toml,
+            # --exclude=venv/, --explicit-package-bases
+          ]
 
   - repo: https://github.com/psf/black
     rev: 23.1.0
@@ -78,27 +78,27 @@ repos:
         args:
           - --rcfile=./pyproject.toml
 
-  # - repo: https://github.com/PyCQA/flake8
-  #   rev: 6.0.0
-  #   hooks:
-  #     - id: flake8
-  #       args:
-  #         - --toml-config=./pyproject.toml
-  #       additional_dependencies:
-  #         - radon
-  #         - Flake8-pyproject
-  #         - flake8-docstrings
-  #         - flake8-bugbear
-  #         - flake8-isort
-  #       # exclude: |
-  #       #   venv/
-  #       #   \.venv/
-  #       #   env/
-  #       #   \.env/
-  #       #   .*/venv/.*
-  #       #   .*/\.venv/.*
-  #       #   .*/env/.*
-  #       #   .*/\.env/.*
+  - repo: https://github.com/PyCQA/flake8
+    rev: 6.0.0
+    hooks:
+      - id: flake8
+        args:
+          - --toml-config=./pyproject.toml
+        additional_dependencies:
+          - radon
+          - Flake8-pyproject
+          - flake8-docstrings
+          # - flake8-bugbear
+          # - flake8-isort
+        # exclude: |
+        #   venv/
+        #   \.venv/
+        #   env/
+        #   \.env/
+        #   .*/venv/.*
+        #   .*/\.venv/.*
+        #   .*/env/.*
+        #   .*/\.env/.*
 
   - repo: https://github.com/pycqa/isort
     rev: 5.12.0
@@ -116,4 +116,4 @@ repos:
           - --remove-all-unused-imports
           - --remove-unused-variable
           - --ignore-init-module-imports
-          - --exclude=venv,.venv,env,.env,*/venv/*,*/.venv/*,*/env/*,*/.env/*
+          # - --exclude=venv,.venv,env,.env,*/venv/*,*/.venv/*,*/env/*,*/.env/*
