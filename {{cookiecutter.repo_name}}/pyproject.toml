@@ -82,6 +82,10 @@ disable = [
     "import-error",
     "too-few-public-methods",
     "redefined-outer-name",
+    "missing-docstring",
+    "C0114",  # missing-module-docstring
+    "C0115",  # missing-class-docstring
+    "C0116",  # missing-function-docstring
 ]
 # messages_control = { disable =[
 #     "line-too-long",
