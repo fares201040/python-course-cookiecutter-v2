@@ -30,6 +30,8 @@ jobs:
           git tag $(cat version.txt)
 
   lint-format-and-static-code-checks:
+    needs:
+      - build-wheel-and-sdist
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -82,7 +84,7 @@ jobs:
       - name: Install test dependencies
         run: |
           pip install pytest pytest-cov ./dist/*.whl
-      - name: Lint, Format, and other static code quality checks
+      - name: Execute tests
         run: |
           /bin/bash -x run.sh test:ci
 
