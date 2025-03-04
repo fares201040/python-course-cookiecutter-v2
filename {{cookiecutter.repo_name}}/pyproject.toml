@@ -73,24 +73,8 @@ ignore-patterns = [
     "(^|/|\\\\)env/.*",
     "(^|/|\\\\)\\.env/.*"
 ]
-[tool.pylint."messages control"]
-disable = [
-    "line-too-long",
-    "trailing-whitespace",
-    "missing-function-docstring",
-    "consider-using-f-string",
-    "import-error",
-    "too-few-public-methods",
-    "redefined-outer-name",
-    "missing-docstring",
-    "C0114",  # missing-module-docstring
-    "C0115",  # missing-class-docstring
-    "C0116",  # missing-function-docstring
-    "D104",   # Missing docstring in public package
-    "D103",   # Missing docstring in public function
-    "D205",   # blank line required between summary line and description
-]
-# messages_control = { disable =[
+# [tool.pylint."messages control"]
+# disable = [
 #     "line-too-long",
 #     "trailing-whitespace",
 #     "missing-function-docstring",
@@ -102,8 +86,27 @@ disable = [
 #     "C0114",  # missing-module-docstring
 #     "C0115",  # missing-class-docstring
 #     "C0116",  # missing-function-docstring
-#     "W0105",
-# ]}
+#     "D104",   # Missing docstring in public package
+#     "D103",   # Missing docstring in public function
+#     "D205",   # blank line required between summary line and description
+# ]
+messages_control = { disable =[
+    "line-too-long",
+    "trailing-whitespace",
+    "missing-function-docstring",
+    "consider-using-f-string",
+    "import-error",
+    "too-few-public-methods",
+    "redefined-outer-name",
+    "missing-docstring",
+    "C0114",  # missing-module-docstring
+    "C0115",  # missing-class-docstring
+    "C0116",  # missing-function-docstring
+    "W0105",
+    "D104",   # Missing docstring in public package
+    "D103",   # Missing docstring in public function
+    "D205",   # blank line required between summary line and description
+]}
 
 [tool.mypy]
 exclude = "venv/|.venv/|env/|.env/"
